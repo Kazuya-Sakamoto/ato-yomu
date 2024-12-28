@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Card from '@/components/layouts/Links/Card';
-import theme from '@/theme';
+import theme from '@/config/style';
 
 export default function HomeScreen() {
   return (
@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.color.background.main,
   },
 });

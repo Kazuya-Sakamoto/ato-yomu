@@ -33,7 +33,7 @@ const Layout: FC = () => {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="keeps"
         options={{
           tabBarLabel: 'ホーム',
@@ -45,7 +45,7 @@ const Layout: FC = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="settings"
         options={{
