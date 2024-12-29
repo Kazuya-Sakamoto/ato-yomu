@@ -1,7 +1,7 @@
 # ato-yomu
 
 <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
-  <!-- <img src="https://img.shields.io/badge/License-MIT-blue" alt="License"> -->
+  <img src="https://img.shields.io/badge/License-MIT-blue" alt="License">
   <img src="https://img.shields.io/badge/React%20Native-v0.76.5-3DDC84" alt="React Native">
   <img src="https://img.shields.io/badge/Expo-v52.0.23-brightgreen" alt="Expo">
   <img src="https://img.shields.io/badge/React-v18.3.1-61DAFB" alt="React">
