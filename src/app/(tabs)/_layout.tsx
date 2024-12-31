@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Layout = () => {
+export default function Layout() {
   return (
     <Tabs
       screenOptions={{
@@ -9,10 +9,11 @@ const Layout = () => {
         tabBarInactiveTintColor: '#bfc0d1',
         headerShown: false,
         tabBarStyle: {
+          height: 55,
           backgroundColor: '#ffffff',
           shadowColor: '#1e202c',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.25,
+          borderTopWidth: 1,
+          borderTopColor: '#f0f0f0',
           shadowRadius: 10,
           elevation: 10,
         },
@@ -24,7 +25,7 @@ const Layout = () => {
           tabBarLabel: 'リンク',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
-              name="home-variant-outline"
+              name="link-variant"
               color={color}
               size={30}
             />
@@ -32,20 +33,7 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="index"
-        options={{
-          tabBarLabel: 'ホーム',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="home-variant-outline"
-              color={color}
-              size={30}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
+        name="settings/index"
         options={{
           tabBarLabel: '設定',
           tabBarIcon: ({ color }) => (
@@ -59,6 +47,4 @@ const Layout = () => {
       />
     </Tabs>
   );
-};
-
-export default Layout;
+}

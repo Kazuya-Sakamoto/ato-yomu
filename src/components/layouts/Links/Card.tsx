@@ -11,7 +11,7 @@ import {
   Swipeable,
 } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
@@ -142,9 +142,9 @@ const Card = () => {
           }}
         />
         <TouchableOpacity style={styles.addLinkButton}>
-          <MaterialCommunityIcons
-            name="link-variant-plus"
-            color={'#fff'}
+          <MaterialIcons
+            name="add-circle-outline"
+            color={theme.color.background.main}
             size={20}
           />
           <Text fontWeight="bold" fontSize={'sm'} color="background">

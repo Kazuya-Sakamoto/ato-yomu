@@ -1,16 +1,5 @@
-import { StyleSheet, View } from 'react-native';
+import { Redirect } from 'expo-router';
 
-import theme from '@/config/style';
-
-export default function HomeScreen() {
-  return <View style={styles.container}></View>;
+export default function Index() {
+  return <Redirect href="/(tabs)/links" />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.color.background.main,
-  },
-});
