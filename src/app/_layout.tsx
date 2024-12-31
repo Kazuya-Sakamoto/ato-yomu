@@ -1,9 +1,7 @@
-import { type FC } from 'react';
 import { Tabs } from 'expo-router';
-// import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Layout: FC = () => {
+const Layout = () => {
   return (
     <Tabs
       screenOptions={{
@@ -21,6 +19,19 @@ const Layout: FC = () => {
       }}
     >
       <Tabs.Screen
+        name="links"
+        options={{
+          tabBarLabel: 'リンク',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="home-variant-outline"
+              color={color}
+              size={30}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           tabBarLabel: 'ホーム',
@@ -33,19 +44,6 @@ const Layout: FC = () => {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="keeps"
-        options={{
-          tabBarLabel: 'ホーム',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="bookmark-multiple-outline"
-              color={color}
-              size={30}
-            />
-          ),
-        }}
-      /> */}
       <Tabs.Screen
         name="settings"
         options={{

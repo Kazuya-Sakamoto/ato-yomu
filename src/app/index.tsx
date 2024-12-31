@@ -1,14 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 
-import Card from '@/components/layouts/Links/Card';
 import theme from '@/config/style';
 
 export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <Card />
-    </View>
-  );
+  return <View style={styles.container}></View>;
 }
 
 const styles = StyleSheet.create({

@@ -67,9 +67,9 @@ type SpacingMap = {
 
 export const themeColor = {
   brand: {
-    light: '#6fe0d1',
+    light: '#bfc0d1',
     main: '#605196',
-    dark: '#31323e',
+    dark: '#501A5E',
   },
   base: {
     light: '#D5D5D5',
@@ -80,6 +80,11 @@ export const themeColor = {
     light: '#f7f7f7',
     main: '#ffffff',
     dark: '#000000',
+  },
+  alert: {
+    light: '#F8AAB9',
+    main: '#E2667E',
+    dark: '#B71131',
   },
   transparent: 'transparent',
 };
