@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import { Stack } from 'expo-router';
 
-import Card from '@/components/layouts/Links/Card';
 import theme from '@/config/style';
+import Page from '@/features/Links/components/Page';
 
 export default function HomeScreen() {
   return (
@@ -17,7 +17,7 @@ export default function HomeScreen() {
           // },
         }}
       />
-      <Card />
+      <Page />
     </View>
   );
 }
