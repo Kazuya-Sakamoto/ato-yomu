@@ -28,7 +28,7 @@ const DetailsScreen = () => {
               <MaterialCommunityIcons
                 name="bookmark-outline"
                 color={theme.color.brand.main}
-                size={30}
+                size={28}
               />
             </TouchableOpacity>
           ),
