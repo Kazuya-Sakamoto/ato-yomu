@@ -11,6 +11,9 @@ dependencies:
   expo:
     specifier: ~52.0.23
     version: 52.0.23(@babel/core@7.26.0)(@babel/preset-env@7.26.0)(@expo/metro-runtime@4.0.0)(react-native-webview@13.12.5)(react-native@0.76.5)(react@18.3.1)
+  expo-clipboard:
+    specifier: ^7.0.0
+    version: 7.0.0(expo@52.0.23)(react-native@0.76.5)(react@18.3.1)
   expo-router:
     specifier: ^4.0.15
     version: 4.0.15(expo-constants@17.0.3)(expo-linking@7.0.3)(expo@52.0.23)(react-dom@18.3.1)(react-native-reanimated@3.16.6)(react-native-safe-area-context@4.12.0)(react-native-screens@4.4.0)(react-native@0.76.5)(react@18.3.1)(typescript@5.7.2)
@@ -4665,6 +4668,18 @@ packages:
       react-native: 0.76.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0)(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /expo-clipboard@7.0.0(expo@52.0.23)(react-native@0.76.5)(react@18.3.1):
+    resolution: {integrity: sha512-4Vuv1zZPTOiKzIeC0BIGUN8nyzkXlE6jKchtLxcoksBjHPdG5W2eH05B+hppTrK9N3+Xh02z4j3h1cFRqPJ1fw==}
+    peerDependencies:
+      expo: '*'
+      react: '*'
+      react-native: '*'
+    dependencies:
+      expo: 52.0.23(@babel/core@7.26.0)(@babel/preset-env@7.26.0)(@expo/metro-runtime@4.0.0)(react-native-webview@13.12.5)(react-native@0.76.5)(react@18.3.1)
+      react: 18.3.1
+      react-native: 0.76.5(@babel/core@7.26.0)(@babel/preset-env@7.26.0)(@types/react@18.3.18)(react@18.3.1)
     dev: false
 
   /expo-constants@17.0.3(expo@52.0.23)(react-native@0.76.5):

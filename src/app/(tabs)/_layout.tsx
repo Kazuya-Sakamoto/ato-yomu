@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Layout() {
   return (
@@ -24,11 +24,7 @@ export default function Layout() {
         options={{
           tabBarLabel: 'リンク',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="link-variant"
-              color={color}
-              size={30}
-            />
+            <Ionicons name="link-outline" color={color} size={24} />
           ),
         }}
       />
@@ -37,10 +33,10 @@ export default function Layout() {
         options={{
           tabBarLabel: '設定',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="account-circle-outline"
+            <Ionicons
+              name="ellipsis-horizontal-circle"
               color={color}
-              size={30}
+              size={24}
             />
           ),
         }}

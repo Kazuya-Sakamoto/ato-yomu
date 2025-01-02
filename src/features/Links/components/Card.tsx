@@ -9,7 +9,7 @@ import { type LinkItem } from '@/mocks/links';
 type Props = {
   navigateToDetails: () => void;
   item: LinkItem;
-  onSwipeLeft: (id: number) => void;
+  onSwipeLeft: (item: LinkItem) => void;
   onSwipeRight: (id: number) => void;
 };
 
@@ -19,13 +19,18 @@ const Card = ({
   onSwipeLeft,
   onSwipeRight,
 }: Props) => {
-  const renderLeftItem = () => (
-    <View style={[styles.swipeAction, styles.swipeActionLeft]}>
-      <Text fontSize="lg" fontWeight="bold" color="background">
-        保存
-      </Text>
-    </View>
-  );
+  const renderLeftItem = () => {
+    // if (item.status !== 2) {
+    return (
+      // TODO: 編集で追加と同じUIのモーダルを表示する予定
+      <View style={[styles.swipeAction, styles.swipeActionLeft]}>
+        <Text fontSize="lg" fontWeight="bold" color="background">
+          編集
+        </Text>
+      </View>
+    );
+    // }
+  };
 
   const renderRightItem = () => (
     <View style={[styles.swipeAction, styles.swipeActionRight]}>
@@ -35,8 +40,8 @@ const Card = ({
     </View>
   );
 
-  const handleSwipeLeft = (id: number) => {
-    onSwipeLeft(id);
+  const handleSwipeLeft = (item: LinkItem) => {
+    onSwipeLeft(item);
   };
 
   const handleSwipeRight = (id: number) => {
@@ -48,11 +53,21 @@ const Card = ({
       renderLeftActions={renderLeftItem}
       renderRightActions={renderRightItem}
       onSwipeableOpen={(d) => {
-        if (d === 'left') handleSwipeLeft(item.id);
+        if (d === 'left') handleSwipeLeft(item);
         if (d === 'right') handleSwipeRight(item.id);
       }}
     >
-      <TouchableOpacity onPress={navigateToDetails} style={styles.card}>
+      <TouchableOpacity
+        onPress={navigateToDetails}
+        style={[
+          styles.card,
+          // item.status === 2 && {
+          //   borderWidth: 3,
+          //   borderColor: theme.color.brand.light,
+          //   backgroundColor: theme.color.base.light,
+          // },
+        ]}
+      >
         <View style={styles.cardInfo}>
           <View style={styles.header}>
             <View style={styles.siteInfo}>
@@ -99,13 +114,13 @@ const styles = StyleSheet.create({
   },
   swipeActionLeft: {
     backgroundColor: theme.color.brand.light,
-    borderRadius: 10,
+    borderRadius: 5,
     height: '80%',
     marginTop: theme.spacing(2),
   },
   swipeActionRight: {
     backgroundColor: theme.color.alert.main,
-    borderRadius: 10,
+    borderRadius: 5,
     height: '80%',
     marginTop: theme.spacing(2),
   },
@@ -119,7 +134,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     paddingVertical: theme.spacing(4),
     paddingLeft: theme.spacing(3),
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(2),
   },
   cardInfo: {
     flex: 1,

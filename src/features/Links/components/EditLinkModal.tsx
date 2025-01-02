@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Modal,
@@ -13,18 +13,21 @@ import {
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
 import { type LinkCategories } from '@/mocks/linkCategories';
+import { type LinkItem } from '@/mocks/links';
 import { validateUrl } from '../libs/validateUrl';
 
 type Props = {
   mockCategories: () => LinkCategories[];
   modalVisible: boolean;
   handleCloseModal: () => void;
+  editItem: LinkItem | null;
 };
 
-const AddLinkModal = ({
+const EditLinkModal = ({
   modalVisible,
   handleCloseModal,
   mockCategories,
+  editItem,
 }: Props) => {
   const [formData, setFormData] = useState<{
     url: string;
@@ -37,6 +40,15 @@ const AddLinkModal = ({
   });
 
   const categories = mockCategories();
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      url: editItem?.url ?? '',
+      isValidUrl: validateUrl(editItem?.url ?? ''),
+      selectedCategoryId: editItem?.linkCategories.id ?? null,
+    }));
+  }, [editItem]);
 
   /**
    * URL 入力時のハンドラ
@@ -61,21 +73,7 @@ const AddLinkModal = ({
     }));
   };
 
-  /**
-   * リンク追加ボタン押下時のハンドラ
-   * TODO: URL と選択したカテゴリIDを使ってAPIを叩き、リンクを作成する処理を実装する
-   */
-  const handleAddLink = () => {
-    // 例: API へ送るパラメータの一例
-    // const payload = {
-    //   url: formData.url,
-    //   categoryId: formData.selectedCategoryId,
-    // };
-
-    // 実際のAPI呼び出しなどの処理をここに実装
-    // fetch('/api/links', { ... })
-
-    // 送信完了後にモーダルを閉じ、入力内容をリセット
+  const handleEditLink = () => {
     handleCloseModal();
     setFormData({
       url: '',
@@ -99,7 +97,7 @@ const AddLinkModal = ({
         >
           <View style={styles.modalContent}>
             <Text color="muted" fontSize="xl" fontWeight="bold" mb="$4">
-              あとで読むリンクを追加しましょう！
+              {editItem ? editItem.title : ''}
             </Text>
 
             <View style={styles.inputContainer}>
@@ -161,11 +159,11 @@ const AddLinkModal = ({
                 (!formData.isValidUrl || !formData.selectedCategoryId) &&
                   styles.addButtonDisabled,
               ]}
-              onPress={handleAddLink}
+              onPress={handleEditLink}
               disabled={!formData.isValidUrl || !formData.selectedCategoryId}
             >
               <Text color="background" fontWeight="bold" fontSize="xl">
-                追加する
+                編集する
               </Text>
             </TouchableOpacity>
 
@@ -260,4 +258,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(AddLinkModal);
+export default memo(EditLinkModal);

@@ -1,22 +1,41 @@
 import React, { memo, useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
+import {
+  data as mockCategories,
+  type LinkCategories,
+} from '@/mocks/linkCategories';
 import { data as mockLink, type LinkItem } from '@/mocks/links';
 import AddLinkModal from './AddLinkModal';
 import Card from './Card';
+import EditLinkModal from './EditLinkModal';
 
 const Page = () => {
   const router = useRouter();
-  const [products] = useState<LinkItem[]>(mockLink);
+  const [products] = useState<LinkItem[]>(mockLink());
   const [modalVisible, setModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editItem, setEditItem] = useState<LinkItem | null>(null);
+  const [categories] = useState<LinkCategories[]>(mockCategories());
+  const [activeCategoryId, setActiveCategoryId] = useState<number>(1);
 
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
+
+  const handleOpenEditModal = () => setEditModalVisible(true);
+  const handleCloseEditModal = () => setEditModalVisible(false);
 
   const renderItem = ({ item }: { item: LinkItem }) => {
     const navigateToDetails = () => {
@@ -29,8 +48,10 @@ const Page = () => {
       });
     };
 
-    const onSwipeLeft = (id: number) => {
-      console.log(id, '左');
+    const onSwipeLeft = (item: LinkItem) => {
+      console.log(item, '左');
+      setEditItem(item);
+      handleOpenEditModal();
     };
 
     const onSwipeRight = (id: number) => {
@@ -47,24 +68,68 @@ const Page = () => {
     );
   };
 
+  const filteredProducts =
+    activeCategoryId === 1
+      ? products
+      : products.filter((p) => p.linkCategories.id === activeCategoryId);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AddLinkModal
+        mockCategories={mockCategories}
         modalVisible={modalVisible}
         handleCloseModal={handleCloseModal}
       />
+      <EditLinkModal
+        mockCategories={mockCategories}
+        modalVisible={editModalVisible}
+        handleCloseModal={handleCloseEditModal}
+        editItem={editItem}
+      />
 
       <View style={styles.container}>
+        <View style={styles.filterContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.filterRow}
+          >
+            {categories.map((categorie) => {
+              const isActive = categorie.id === activeCategoryId;
+              return (
+                <TouchableOpacity
+                  key={categorie.id}
+                  style={[
+                    styles.filterButton,
+                    isActive && styles.filterButtonActive,
+                  ]}
+                  onPress={() => setActiveCategoryId(categorie.id)}
+                >
+                  <Text
+                    style={[
+                      styles.filterButtonText,
+                      isActive && styles.filterButtonTextActive,
+                    ]}
+                  >
+                    {categorie.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+
         <FlatList
-          data={products}
-          style={styles.ListStyle}
+          data={filteredProducts}
+          style={styles.listStyle}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
+          ListEmptyComponent={<EmptyContainer />}
           contentContainerStyle={{
             paddingHorizontal: theme.spacing(3),
-            // paddingBottom: theme.spacing(24),
           }}
         />
+
         <TouchableOpacity
           style={styles.addLinkButton}
           onPress={handleOpenModal}
@@ -83,15 +148,83 @@ const Page = () => {
   );
 };
 
+const EmptyContainer = () => {
+  return (
+    <View style={styles.emptyContainer}>
+      <Text color="muted" fontSize="xl" fontWeight="bold" mb="$2" mt="$6">
+        あとで読むリンクを追加しましょう！
+      </Text>
+      <Ionicons name="earth-outline" color={theme.color.base.main} size={80} />
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
     flex: 1,
     backgroundColor: theme.color.background.light,
   },
-  ListStyle: {
+  filterContainer: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(1),
+    marginHorizontal: theme.spacing(3),
+    paddingHorizontal: theme.spacing(2),
+    borderRadius: 16,
+    shadowColor: theme.color.brand.dark,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 4,
+    height: 60,
+    backgroundColor: theme.color.background.main,
+  },
+  filterRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderRadius: 16,
+  },
+  filterButton: {
+    marginRight: theme.spacing(3),
+    paddingVertical: theme.spacing(3),
+    paddingHorizontal: theme.spacing(4),
+    shadowColor: theme.color.brand.dark,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  filterButtonActive: {
+    borderBottomWidth: 3,
+    borderBottomColor: theme.color.brand.dark,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
+  filterButtonText: {
+    color: theme.color.base.main,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  filterButtonTextActive: {
+    color: theme.color.brand.dark,
+  },
+  listStyle: {
+    paddingTop: theme.spacing(2),
+    minWidth: Dimensions.get('window').width,
+    marginBottom: theme.spacing(20),
+  },
+  emptyContainer: {
     flex: 1,
-    paddingTop: theme.spacing(4),
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   addLinkButton: {
     position: 'absolute',
@@ -105,6 +238,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+    elevation: 3,
   },
 });
 
