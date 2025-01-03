@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
@@ -22,9 +23,13 @@ const Card = ({
   const renderLeftItem = () => {
     // if (item.status !== 2) {
     return (
-      // TODO: 編集で追加と同じUIのモーダルを表示する予定
       <View style={[styles.swipeAction, styles.swipeActionLeft]}>
-        <Text fontSize="lg" fontWeight="bold" color="background">
+        <MaterialCommunityIcons
+          name="note-edit-outline"
+          color={theme.color.background.main}
+          size={32}
+        />
+        <Text fontSize="xs" fontWeight="bold" color="background">
           編集
         </Text>
       </View>
@@ -34,7 +39,12 @@ const Card = ({
 
   const renderRightItem = () => (
     <View style={[styles.swipeAction, styles.swipeActionRight]}>
-      <Text fontSize="lg" fontWeight="bold" color="background">
+      <MaterialCommunityIcons
+        name="delete-outline"
+        color={theme.color.background.main}
+        size={32}
+      />
+      <Text fontSize="xs" fontWeight="bold" color="background">
         削除
       </Text>
     </View>
@@ -127,9 +137,9 @@ const styles = StyleSheet.create({
 
   card: {
     backgroundColor: theme.color.background.main,
-    borderRadius: 8,
+    borderRadius: 4,
     shadowColor: theme.color.background.dark,
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     paddingVertical: theme.spacing(4),

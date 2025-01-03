@@ -14,9 +14,11 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
+import { useHaptics } from '@/hooks/useHaptics';
 
 const DetailsScreen = () => {
   const { url, siteName } = useLocalSearchParams();
+  const { onHaptics } = useHaptics();
 
   if (!url || !String(url).startsWith('http')) {
     return (
@@ -29,6 +31,7 @@ const DetailsScreen = () => {
   const handleCopy = async () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     await Clipboard.setStringAsync(String(url));
+    await onHaptics();
     if (Platform.OS === 'android') {
       ToastAndroid.show('リンクをコピーしました', ToastAndroid.SHORT);
     } else {
@@ -45,7 +48,7 @@ const DetailsScreen = () => {
             <TouchableOpacity onPress={handleCopy}>
               <Ionicons
                 name="copy-outline"
-                color={theme.color.brand.main}
+                color={theme.color.base.main}
                 size={28}
               />
             </TouchableOpacity>

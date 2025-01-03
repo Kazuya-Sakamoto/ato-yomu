@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
 import {
+  Animated,
   Dimensions,
   FlatList,
   ScrollView,
@@ -18,12 +19,15 @@ import {
   type LinkCategories,
 } from '@/mocks/linkCategories';
 import { data as mockLink, type LinkItem } from '@/mocks/links';
+import { useFadeWithHaptics } from '../hooks/useFadeWithHaptics';
 import AddLinkModal from './AddLinkModal';
 import Card from './Card';
 import EditLinkModal from './EditLinkModal';
 
 const Page = () => {
   const router = useRouter();
+  const { fadeAnim, triggerAnimationAndHaptics } = useFadeWithHaptics();
+
   const [products] = useState<LinkItem[]>(mockLink());
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -37,6 +41,10 @@ const Page = () => {
   const handleOpenEditModal = () => setEditModalVisible(true);
   const handleCloseEditModal = () => setEditModalVisible(false);
 
+  const handleCategoryPress = async (categoryId: number) => {
+    await triggerAnimationAndHaptics(() => setActiveCategoryId(categoryId));
+  };
+
   const renderItem = ({ item }: { item: LinkItem }) => {
     const navigateToDetails = () => {
       router.push({
@@ -49,7 +57,6 @@ const Page = () => {
     };
 
     const onSwipeLeft = (item: LinkItem) => {
-      console.log(item, '左');
       setEditItem(item);
       handleOpenEditModal();
     };
@@ -103,7 +110,7 @@ const Page = () => {
                     styles.filterButton,
                     isActive && styles.filterButtonActive,
                   ]}
-                  onPress={() => setActiveCategoryId(categorie.id)}
+                  onPress={() => isActive || handleCategoryPress(categorie.id)}
                 >
                   <Text
                     style={[
@@ -119,16 +126,18 @@ const Page = () => {
           </ScrollView>
         </View>
 
-        <FlatList
-          data={filteredProducts}
-          style={styles.listStyle}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-          ListEmptyComponent={<EmptyContainer />}
-          contentContainerStyle={{
-            paddingHorizontal: theme.spacing(3),
-          }}
-        />
+        <Animated.View style={{ opacity: fadeAnim, flex: 1 }}>
+          <FlatList
+            data={filteredProducts}
+            style={styles.listStyle}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id.toString()}
+            ListEmptyComponent={<EmptyContainer />}
+            contentContainerStyle={{
+              paddingHorizontal: theme.spacing(3),
+            }}
+          />
+        </Animated.View>
 
         <TouchableOpacity
           style={styles.addLinkButton}
@@ -167,17 +176,17 @@ const styles = StyleSheet.create({
   },
   filterContainer: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
-    marginHorizontal: theme.spacing(3),
-    paddingHorizontal: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    // marginHorizontal: theme.spacing(3),
+    paddingHorizontal: theme.spacing(3),
     borderRadius: 16,
     shadowColor: theme.color.brand.dark,
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 4,
-    height: 60,
-    backgroundColor: theme.color.background.main,
+    height: 42,
+    // backgroundColor: theme.color.background.main,
   },
   filterRow: {
     alignItems: 'center',
@@ -190,30 +199,17 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing(3),
     paddingHorizontal: theme.spacing(4),
     shadowColor: theme.color.brand.dark,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 4,
   },
   filterButtonActive: {
     borderBottomWidth: 3,
-    borderBottomColor: theme.color.brand.dark,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    borderBottomColor: theme.color.brand.main,
   },
   filterButtonText: {
     color: theme.color.base.main,
     fontWeight: 'bold',
-    fontSize: 16,
   },
   filterButtonTextActive: {
-    color: theme.color.brand.dark,
+    color: theme.color.brand.main,
   },
   listStyle: {
     paddingTop: theme.spacing(2),
