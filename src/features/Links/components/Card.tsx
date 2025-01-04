@@ -5,12 +5,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
-import { type LinkItem } from '@/mocks/links';
+import { type GetLinkWithCategory } from '@/graphql/types/getLinkWithCategoriesQuery';
 
 type Props = {
   navigateToDetails: () => void;
-  item: LinkItem;
-  onSwipeLeft: (item: LinkItem) => void;
+  item: GetLinkWithCategory;
+  onSwipeLeft: (item: GetLinkWithCategory) => void;
   onSwipeRight: (id: number) => void;
 };
 
@@ -50,7 +50,7 @@ const Card = ({
     </View>
   );
 
-  const handleSwipeLeft = (item: LinkItem) => {
+  const handleSwipeLeft = (item: GetLinkWithCategory) => {
     onSwipeLeft(item);
   };
 
@@ -91,17 +91,17 @@ const Card = ({
               <Text fontSize="sm">{item.siteName}</Text>
             </View>
             <Text fontSize="sm" color="muted" mb="$1">
-              {item.createdDate}
+              {item.createdAt}
             </Text>
           </View>
           <View style={styles.cardTitle}>
             <Text fontWeight="bold" fontSize="lg" mr="$1">
               {item.title}
             </Text>
-            {item.ogImage && (
+            {item.ogImageUrl && (
               <Image
-                source={{ uri: item.ogImage }}
-                style={styles.ogImage}
+                source={{ uri: item.ogImageUrl }}
+                style={styles.ogImageUrl}
                 resizeMode="cover"
               />
             )}
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: theme.spacing(1),
   },
-  ogImage: {
+  ogImageUrl: {
     width: 115,
     height: 60,
     borderRadius: 4,

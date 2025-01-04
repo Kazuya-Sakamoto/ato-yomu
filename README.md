@@ -22,8 +22,20 @@
 $ pnpm install
 ```
 
+- Cache clear Start the Application
+
+```bash
+$ npx expo start -c
+```
+
 - Start the Application
 
 ```bash
 $ pnpm run start
+```
+
+- Codegen for graphql schema
+
+```bash
+$ pnpm run generate
 ```

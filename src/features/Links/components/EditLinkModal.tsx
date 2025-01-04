@@ -12,15 +12,15 @@ import {
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
+import { type GetLinkWithCategory } from '@/graphql/types/getLinkWithCategoriesQuery';
 import { type LinkCategories } from '@/mocks/linkCategories';
-import { type LinkItem } from '@/mocks/links';
 import { validateUrl } from '../libs/validateUrl';
 
 type Props = {
   mockCategories: () => LinkCategories[];
   modalVisible: boolean;
   handleCloseModal: () => void;
-  editItem: LinkItem | null;
+  editItem: GetLinkWithCategory | null;
 };
 
 const EditLinkModal = ({
@@ -46,7 +46,7 @@ const EditLinkModal = ({
       ...prev,
       url: editItem?.url ?? '',
       isValidUrl: validateUrl(editItem?.url ?? ''),
-      selectedCategoryId: editItem?.linkCategories.id ?? null,
+      selectedCategoryId: editItem?.categories?.[0].id ?? null,
     }));
   }, [editItem]);
 

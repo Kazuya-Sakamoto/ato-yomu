@@ -1,0 +1,17 @@
+query GetLinkWithCategories($userId: Int!) {
+  getLinkWithCategories(userId: $userId) {
+    id
+    status
+    title
+    ogImageUrl
+    url
+    iconUrl
+    siteName
+    domainUrl
+    createdAt
+    categories {
+      id
+      name
+    }
+  }
+}

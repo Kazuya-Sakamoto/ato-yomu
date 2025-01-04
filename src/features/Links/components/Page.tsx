@@ -14,24 +14,30 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import Text from '@/components/parts/Text';
 import theme from '@/config/style';
+import { type GetLinkWithCategory } from '@/graphql/types/getLinkWithCategoriesQuery';
 import {
   data as mockCategories,
   type LinkCategories,
 } from '@/mocks/linkCategories';
-import { data as mockLink, type LinkItem } from '@/mocks/links';
 import { useFadeWithHaptics } from '../hooks/useFadeWithHaptics';
+import { useGetLinkWithCategories } from '../hooks/useGetLinkWithCategories';
 import AddLinkModal from './AddLinkModal';
 import Card from './Card';
 import EditLinkModal from './EditLinkModal';
+
+const MOCK_USER_ID = 1;
 
 const Page = () => {
   const router = useRouter();
   const { fadeAnim, triggerAnimationAndHaptics } = useFadeWithHaptics();
 
-  const [products] = useState<LinkItem[]>(mockLink());
+  const { links, loading, error } = useGetLinkWithCategories(MOCK_USER_ID);
+
+  console.log('Apollo Response links:', links, loading, error);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [editItem, setEditItem] = useState<LinkItem | null>(null);
+  const [editItem, setEditItem] = useState<GetLinkWithCategory | null>(null);
   const [categories] = useState<LinkCategories[]>(mockCategories());
   const [activeCategoryId, setActiveCategoryId] = useState<number>(1);
 
@@ -45,7 +51,7 @@ const Page = () => {
     await triggerAnimationAndHaptics(() => setActiveCategoryId(categoryId));
   };
 
-  const renderItem = ({ item }: { item: LinkItem }) => {
+  const renderItem = ({ item }: { item: GetLinkWithCategory }) => {
     const navigateToDetails = () => {
       router.push({
         pathname: `/links/${item.id}`,
@@ -56,7 +62,7 @@ const Page = () => {
       });
     };
 
-    const onSwipeLeft = (item: LinkItem) => {
+    const onSwipeLeft = (item: GetLinkWithCategory) => {
       setEditItem(item);
       handleOpenEditModal();
     };
@@ -77,8 +83,8 @@ const Page = () => {
 
   const filteredProducts =
     activeCategoryId === 1
-      ? products
-      : products.filter((p) => p.linkCategories.id === activeCategoryId);
+      ? links
+      : links.filter((p) => p.categories?.[0]?.id === activeCategoryId);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -177,7 +183,6 @@ const styles = StyleSheet.create({
   filterContainer: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    // marginHorizontal: theme.spacing(3),
     paddingHorizontal: theme.spacing(3),
     borderRadius: 16,
     shadowColor: theme.color.brand.dark,
@@ -186,7 +191,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
     height: 42,
-    // backgroundColor: theme.color.background.main,
   },
   filterRow: {
     alignItems: 'center',

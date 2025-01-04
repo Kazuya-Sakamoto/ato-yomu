@@ -1,4 +1,8 @@
 {
-  "**/*.{ts,tsx,js,jsx,cjs,mjs,md}": ["eslint --fix"],
-  "**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}": ["prettier --write"]
+  "**/*.{ts,tsx,js,jsx,cjs,mjs,md}": ["eslint --fix", "git add"],
+  "**/*.{ts,tsx,js,jsx,cjs,mjs,md,json,lintstagedrc}": [
+    "prettier --write",
+    "git add"
+  ],
+  "!src/graphql/types/**/*": []
 }
