@@ -4,3 +4,6 @@ node_modules/**/*
 .DS_Store
 .tmp/*
 .env
+
+# generated types file
+src/graphql/types/
