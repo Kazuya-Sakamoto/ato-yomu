@@ -34,7 +34,7 @@ const config = {
   ignorePatterns: [
     //'.eslintrc.cjs',
     'babel.config.js',
-    //'metro.config.js'
+    'src/graphql/types/index.ts',
   ],
 };
 

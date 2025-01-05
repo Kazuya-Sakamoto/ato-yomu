@@ -26,9 +26,6 @@ jobs:
         shell: bash
         run: pnpm install
 
-      - name: Run GraphQL Codegen
-        run: pnpm run codegen
-
       - name: Lint
         run: pnpm run lint
 
