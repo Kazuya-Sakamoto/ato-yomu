@@ -2,7 +2,7 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - "**"
+      - '**'
 
 jobs:
   build:
@@ -20,11 +20,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.0.0
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         shell: bash
         run: pnpm install
+
+      - name: Run GraphQL Codegen
+        run: pnpm run codegen
 
       - name: Lint
         run: pnpm run lint

@@ -36,4 +36,4 @@ yarn-error.*
 *.tsbuildinfo
 
 # generated types file
-src/graphql/types/index.ts
+src/graphql/types/
